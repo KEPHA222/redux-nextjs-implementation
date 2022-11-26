@@ -1,16 +1,16 @@
-import { wrapper } from "app/store";
-import { selectProfile, setProfileData } from "app/store/slices/profile";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 
+import { wrapper } from "app/store";
+import { selectProfile, setProfileData } from "app/store/slices/profile";
 import styles from "../styles/Home.module.css";
 
-const Home: NextPage = (props: any) => {
+const Profile: NextPage = (props: any) => {
   const { resolvedUrl } = props;
-  const profile = useSelector(selectProfile);
+  const profile = useSelector(selectProfile) as any;
 
   return (
     <div className={styles.container}>
@@ -27,14 +27,14 @@ const Home: NextPage = (props: any) => {
 
         <h1>URL: {resolvedUrl}</h1>
         <p>
-          This is the Redux data: <strong> {profile.name}</strong>
+          This is the Redux data set in Index: <strong> {profile.name}</strong>
         </p>
 
         <p>
           Navigate to
-          <Link href="/profile" legacyBehavior>
+          <Link href="/" legacyBehavior>
             <a>
-              <strong> Profile</strong>
+              <strong> Home</strong>
             </a>
           </Link>
         </p>
@@ -59,14 +59,10 @@ const Home: NextPage = (props: any) => {
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
     async ({ resolvedUrl }) => {
-      // console.log("resolvedUrl", resolvedUrl);
-
-      store.dispatch(setProfileData("My Server Name"));
-
       return {
         props: { resolvedUrl },
       };
     }
 );
 
-export default Home;
+export default Profile;
